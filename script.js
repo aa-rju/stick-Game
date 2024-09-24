@@ -162,25 +162,46 @@ Array.prototype.last = function () {
     }
   });
   
-  window.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      
-      // When in the waiting phase, start stretching the stick
-      if (phase === "waiting") {
-          lastTimestamp = undefined;
-          introductionElement.style.opacity = 0;
-          phase = "stretching";
-          window.requestAnimationFrame(animate);
-      }
-  }
-  });
-  
-  window.addEventListener("keyup", function (event) {
-    if (phase == "stretching") {
-      phase = "turning";
+// Listen for "Enter" key on desktop or "touchstart" on mobile to start the game
+window.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    
+    // When in the waiting phase, start stretching the stick
+    if (phase === "waiting") {
+      lastTimestamp = undefined;
+      introductionElement.style.opacity = 0;
+      phase = "stretching";
+      window.requestAnimationFrame(animate);
     }
-  }); 
+  }
+});
+
+window.addEventListener("touchstart", function () {
+  // On mobile devices, start the game with touch
+  if (phase === "waiting") {
+    lastTimestamp = undefined;
+    introductionElement.style.opacity = 0;
+    phase = "stretching";
+    window.requestAnimationFrame(animate);
+  }
+});
+
+// Listen for "Enter" key release on desktop or "touchend" on mobile to stop stretching
+window.addEventListener("keyup", function (event) {
+  if (event.key === "Enter" && phase === "stretching") {
+    phase = "turning";
+  }
+});
+
+window.addEventListener("touchend", function () {
+  // On mobile devices, stop stretching with touch release
+  if (phase === "stretching") {
+    phase = "turning";
+  }
+});
+
+
   
   window.addEventListener("resize", function (event) {
     canvas.width = window.innerWidth;
