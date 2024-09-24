@@ -180,7 +180,7 @@ Array.prototype.last = function () {
     if (phase == "stretching") {
       phase = "turning";
     }
-  });
+  }); 
   
   window.addEventListener("resize", function (event) {
     canvas.width = window.innerWidth;
