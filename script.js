@@ -162,16 +162,21 @@ Array.prototype.last = function () {
     }
   });
   
-  window.addEventListener("mousedown", function (event) {
-    if (phase == "waiting") {
-      lastTimestamp = undefined;
-      introductionElement.style.opacity = 0;
-      phase = "stretching";
-      window.requestAnimationFrame(animate);
-    }
+  window.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      
+      // When in the waiting phase, start stretching the stick
+      if (phase === "waiting") {
+          lastTimestamp = undefined;
+          introductionElement.style.opacity = 0;
+          phase = "stretching";
+          window.requestAnimationFrame(animate);
+      }
+  }
   });
   
-  window.addEventListener("mouseup", function (event) {
+  window.addEventListener("keyup", function (event) {
     if (phase == "stretching") {
       phase = "turning";
     }
