@@ -105,6 +105,14 @@ Array.prototype.last = function () {
     generateTree();
     generateTree();
     generateTree();
+    generateTree();
+    generateTree();
+    generateTree();
+    generateTree();
+    generateSnowflow()
+    generateSnowflow()
+    generateSnowflow()
+    generateSnowflow()
   
     heroX = platforms[0].x + platforms[0].w - heroDistanceFromEdge;
     heroY = 0;
@@ -149,6 +157,27 @@ Array.prototype.last = function () {
       minimumWidth + Math.floor(Math.random() * (maximumWidth - minimumWidth));
   
     platforms.push({ x, w });
+  }
+//lets generate snow falling
+  function generateSnowflow() {
+    const minimumGap = 50;
+    const maximumGap = 150;
+    const minimumWidth = 10;
+    const maximumWidth = 60;
+  
+    // X coordinate of the right edge of the furthest tree
+    const lastTree = trees[trees.length - 1];
+    let furthestX = lastTree ? lastTree.x : 0;
+  
+    const x =
+      furthestX +
+      minimumGap +
+      Math.floor(Math.random() * (maximumGap - minimumGap));
+  
+    const treeColors = ["#000ff", "#8FAC34", "#98B333"];
+    const color = treeColors[Math.floor(Math.random() * 3)];
+  
+    trees.push({ x, color });
   }
   
   resetGame();
@@ -224,6 +253,8 @@ window.addEventListener("touchend", function () {
         return; // Stop the loop
       case "stretching": {
         sticks.last().length += (timestamp - lastTimestamp) / stretchingSpeed;
+          // Play walking sound
+        stickSound.play();
         break;
       }
       case "turning": {
@@ -252,8 +283,8 @@ window.addEventListener("touchend", function () {
           
         }
           // Play walking sound
-          stickSound.currentTime = 0;
-          stickSound.play();
+          walkSound.currentTime = 0;
+          walkSound.play();
         break;
       }
       case "walking": {
@@ -291,9 +322,7 @@ window.addEventListener("touchend", function () {
           });
           phase = "waiting";
         }
-          // Play walking sound
-          walkSound.currentTime = -2;
-          walkSound.play();
+
         break;
       }
       case "falling": {
