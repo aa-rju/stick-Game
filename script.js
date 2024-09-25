@@ -109,10 +109,6 @@ Array.prototype.last = function () {
     generateTree();
     generateTree();
     generateTree();
-    generateSnowflow()
-    generateSnowflow()
-    generateSnowflow()
-    generateSnowflow()
   
     heroX = platforms[0].x + platforms[0].w - heroDistanceFromEdge;
     heroY = 0;
@@ -157,27 +153,6 @@ Array.prototype.last = function () {
       minimumWidth + Math.floor(Math.random() * (maximumWidth - minimumWidth));
   
     platforms.push({ x, w });
-  }
-//lets generate snow falling
-  function generateSnowflow() {
-    const minimumGap = 50;
-    const maximumGap = 150;
-    const minimumWidth = 10;
-    const maximumWidth = 60;
-  
-    // X coordinate of the right edge of the furthest tree
-    const lastTree = trees[trees.length - 1];
-    let furthestX = lastTree ? lastTree.x : 0;
-  
-    const x =
-      furthestX +
-      minimumGap +
-      Math.floor(Math.random() * (maximumGap - minimumGap));
-  
-    const treeColors = ["#000ff", "#8FAC34", "#98B333"];
-    const color = treeColors[Math.floor(Math.random() * 3)];
-  
-    trees.push({ x, color });
   }
   
   resetGame();
@@ -390,6 +365,18 @@ window.addEventListener("touchend", function () {
       (window.innerWidth - canvasWidth) / 2 - sceneOffset,
       (window.innerHeight - canvasHeight) / 2
     );
+
+    // Dynamically resize the canvas based on the window size
+  function resizeCanvas() {
+    const canvas = document.getElementById('game');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  // Call the resize function on load and on window resize
+  window.addEventListener('load', resizeCanvas);
+  window.addEventListener('resize', resizeCanvas);
+
   
     // Draw scene
     drawPlatforms();
@@ -429,6 +416,8 @@ window.addEventListener("touchend", function () {
       }
     });
   }
+
+  
   
   function drawHero() {
     ctx.save();
